@@ -489,6 +489,22 @@
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
       appId: "9a2d4bd3-c176-405a-a3da-8f842d43fc11",
+      notifyButton: { enable: false },
+      allowLocalhostAsSecureOrigin: true,
+      promptOptions: {
+        slidedown: {
+          prompts: [{
+            type: "push",
+            autoPrompt: true,
+            text: {
+              actionMessage: "Get a daily 8am notification when your Roots Engage drafts are ready.",
+              acceptButton: "Allow",
+              cancelButton: "Not now"
+            },
+            delay: { pageViews: 1, timeDelay: 3 }
+          }]
+        }
+      }
     });
   });
 </script>
