@@ -482,6 +482,16 @@
     .feed-list { grid-template-columns: 1fr; }
   }
 </style>
+<!-- OneSignal Web Push SDK -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "9a2d4bd3-c176-405a-a3da-8f842d43fc11",
+    });
+  });
+</script>
 </head>
 <body>
 
