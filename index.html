@@ -492,9 +492,11 @@
   <div class="login-card">
     <label for="login-email">Email</label>
     <input id="login-email" type="email" inputmode="email" autocomplete="email" value="" placeholder="info@rootshealth.care" />
-    <button class="btn btn-primary" id="login-btn" style="width:100%" onclick="login()">Send magic link</button>
+    <label for="login-password" style="margin-top:6px;display:block">Password</label>
+    <input id="login-password" type="password" autocomplete="current-password" placeholder="Your password" onkeydown="if(event.key==='Enter') login()" />
+    <button class="btn btn-primary" id="login-btn" style="width:100%" onclick="login()">Sign in</button>
     <div id="login-status" class="login-status"></div>
-    <p class="login-foot">A one-time sign-in link will be sent to your inbox.</p>
+    <p class="login-foot">Both you and Emma have your own credentials. If you forget your password, message me and I'll reset it.</p>
   </div>
 </div>
 
@@ -613,27 +615,25 @@ function greeting() {
 // ============================================================
 async function login() {
   const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
   const status = document.getElementById('login-status');
   const btn = document.getElementById('login-btn');
-  if (!email) {
+  if (!email || !password) {
     status.className = 'login-status show error';
-    status.textContent = 'Please enter your email.';
+    status.textContent = 'Please enter both email and password.';
     return;
   }
   btn.disabled = true;
-  btn.textContent = 'Sending…';
-  const { error } = await sb.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: window.location.origin }
-  });
+  btn.textContent = 'Signing in…';
+  const { error } = await sb.auth.signInWithPassword({ email, password });
   btn.disabled = false;
-  btn.textContent = 'Send magic link';
+  btn.textContent = 'Sign in';
   if (error) {
     status.className = 'login-status show error';
-    status.textContent = 'Error: ' + error.message;
+    status.textContent = 'Sign in failed: ' + error.message;
   } else {
     status.className = 'login-status show success';
-    status.textContent = 'Check your inbox. Click the link to sign in.';
+    status.textContent = 'Signed in.';
   }
 }
 
